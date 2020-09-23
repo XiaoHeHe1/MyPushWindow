@@ -1,0 +1,106 @@
+
+
+<!--使用button是为了当点击时不让webview自动升降,影响自己的升降逻辑可换成不可输入的input-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--解决输入框特别小的问题-->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        
+        <title>sucess</title>
+        <meta charset="utf-8">
+            
+            <style type="text/css">
+                /*去除input默认样式*/
+                input {-webkit-appearance:none; }
+                
+                .jsBtn {
+                    background:#baf;
+                    height: 40px;
+                    margin-left: 4%;
+                    margin-top: 11px;
+                    padding-left:0px;
+                    width: 29%;
+                    outline: none;
+                    -webkit-appearance:none;
+                }
+            
+                </style>
+            
+            </head>
+    <body onload="after()">
+        <script>
+            
+            //全局变量
+            var h5CurrentPageDisplayDic;
+            
+            //onload事件 页面加载后先取上页保存的数据
+            function after(){
+                
+                window.webkit.messageHandlers.getCurrentPageDisplayDic.postMessage({'callBackName':'h5getCurrentPageDisplayDic'});
+                
+            }
+        
+        //得到本页展示数据
+        function h5getCurrentPageDisplayDic(dicStr){
+            h5CurrentPageDisplayDic = dicStr;
+            alert(h5CurrentPageDisplayDic);
+            
+            alert(dicStr.cardNo);
+            
+            var btn2 = document.getElementById('btn2');
+            var btn3 = document.getElementById('btn3');
+            
+            
+            btn2.innerHTML = dicStr.type;
+            btn3.innerHTML = dicStr.des;
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        //解决第一次弹出中文键盘，输入框被遮挡问题
+        function layoutIntoView(){
+            const input = document.getElementsByTagName('input')[0];
+            setTimeout(() => {
+                input.scrollIntoViewIfNeeded();
+            }, 100);
+        }
+        //监听h5键盘的return事件
+        document.onkeydown = cdk;
+        function cdk(){
+            if(event.keyCode == 13){
+                alert('点击了return');
+            }
+        }
+        
+        
+        
+        
+            </script>
+        
+        
+        
+        <div id="main" width = "100%" height = "100%">
+            <p>本页是第三页h5页面</p>
+            
+            
+            <button class="jsBtn" id="btn2" >展示上页代来的数据</button>
+            <button class="jsBtn" id="btn3" >展示上页代来的数据</button>
+            
+            
+            
+            
+            
+        </div>
+        
+        
+        
+    </body>
+</html>
